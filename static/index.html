@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Document Processing - Nemotron RAG</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon"><i class="fa-solid fa-brain"></i></span>
+                    <span class="logo-text">Nemotron<span class="accent-text">IDP</span></span>
+                </div>
+            </div>
+
+            <!-- Configuration Section -->
+            <div class="sidebar-section">
+                <h3><i class="fa-solid fa-key"></i> Credentials</h3>
+                <div class="api-key-container">
+                    <input type="password" id="apiKeyInput" placeholder="Enter NVIDIA API Key (nvapi-...)" />
+                    <button id="saveKeyBtn" class="btn-primary-glow"><i class="fa-solid fa-save"></i> Save</button>
+                </div>
+                <div id="keyStatus" class="key-status-badge status-missing">
+                    <span class="dot"></span> <span class="status-label">No API Key Set</span>
+                </div>
+            </div>
+
+            <!-- Ingestion / Upload Section -->
+            <div class="sidebar-section">
+                <h3><i class="fa-solid fa-file-arrow-up"></i> Ingest Document</h3>
+                <div class="upload-zone" id="dropZone">
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                    <p>Drag & Drop PDFs here</p>
+                    <span>or click to browse</span>
+                    <input type="file" id="fileInput" multiple accept=".pdf" style="display: none;" />
+                </div>
+                <div id="uploadProgressContainer" class="progress-container hidden">
+                    <div class="progress-bar-wrapper">
+                        <div id="uploadProgressBar" class="progress-bar"></div>
+                    </div>
+                    <span id="uploadProgressText">Uploading...</span>
+                </div>
+            </div>
+
+            <!-- Document List Section -->
+            <div class="sidebar-section document-list-section flex-grow">
+                <div class="section-header-row">
+                    <h3><i class="fa-solid fa-folder-open"></i> Documents</h3>
+                    <button id="clearDbBtn" class="btn-icon-danger" title="Clear All Documents"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <div id="documentList" class="document-list">
+                    <div class="empty-state-list">
+                        <p>No documents indexed yet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer info -->
+            <div class="sidebar-footer">
+                <span class="version">v1.0.0</span>
+                <span class="system-status"><span class="pulse-dot"></span> Online</span>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-workspace">
+            <header class="main-header">
+                <div class="header-title">
+                    <h1>Intelligent Document Processing <span class="badge">Nemotron RAG</span></h1>
+                    <p>Chat with complex documents using NVIDIA's advanced reasoning models</p>
+                </div>
+            </header>
+
+            <!-- Chat Container -->
+            <div class="chat-canvas">
+                <!-- Chat Messages -->
+                <div class="messages-container" id="messagesContainer">
+                    <!-- Welcome message -->
+                    <div class="message system-message">
+                        <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+                        <div class="message-content-wrapper">
+                            <div class="sender-name">Nemotron Assistant</div>
+                            <div class="message-bubble">
+                                <p>Welcome! I am your Intelligent Document Processing assistant powered by **NVIDIA Nemotron-3.3-70B**.</p>
+                                <p>To get started:</p>
+                                <ul>
+                                    <li>Provide your <strong>NVIDIA API key</strong> in the sidebar.</li>
+                                    <li>Upload a document (like a complex financial PDF report, table, or chart).</li>
+                                    <li>Ask me detailed questions! I'll read the papers and reply with exact page references.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citations Inspection Panel -->
+                <div id="citationsPanel" class="citations-panel hidden">
+                    <div class="citations-header">
+                        <h4><i class="fa-solid fa-quote-left"></i> Verified Sources</h4>
+                        <button id="closeCitationsBtn" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div id="citationsContent" class="citations-content">
+                        <!-- Citations will be dynamically loaded here -->
+                    </div>
+                </div>
+
+                <!-- Input Panel -->
+                <div class="chat-input-panel">
+                    <!-- Suggestions tags -->
+                    <div class="suggestions-row" id="suggestionsRow">
+                        <span class="suggestion-tag" data-query="Summarize the uploaded document.">Summarize document</span>
+                        <span class="suggestion-tag" data-query="Identify key tables or figures and describe their data.">Analyze data & tables</span>
+                        <span class="suggestion-tag" data-query="What are the main findings or metrics in the text?">Extract metrics</span>
+                    </div>
+
+                    <div class="input-form">
+                        <textarea id="chatInput" placeholder="Ask a question about the indexed documents..." rows="1"></textarea>
+                        <button id="sendBtn" class="btn-send" disabled><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

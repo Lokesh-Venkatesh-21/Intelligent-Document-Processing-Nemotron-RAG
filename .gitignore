@@ -1,0 +1,23 @@
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# Data & Database
+vector_db.json
+temp_uploads/
+milvus_wb_demo.db
+
+# Environmental variables
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
